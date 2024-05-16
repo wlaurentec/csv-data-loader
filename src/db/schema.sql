@@ -1,10 +1,10 @@
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
-    name varchar(255) NOT NULL,
+  name varchar(255) NOT NULL,
 	email varchar(255) NOT NULL UNIQUE,
-	password varchar(60) NOT NULL
-    age integer NULL CHECK (age > 0),
-    role varchar(255) NOT default 'user',
+	--password varchar(60) NOT NULL
+  age integer NULL CHECK (age > 0),
+  role varchar(255) NOT default 'user',
 );
 
 CREATE TABLE "session" (
