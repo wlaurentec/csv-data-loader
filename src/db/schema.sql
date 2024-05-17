@@ -8,7 +8,7 @@ CREATE TABLE users (
 
 
 CREATE TABLE admin (
-    user_id SERIAL PRIMARY KEY,
+    user_id PRIMARY KEY,
     password VARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );

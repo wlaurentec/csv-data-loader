@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 export const adminSchema = z.object({
+  user_id: z.
+    number(),
   password: z
     .string({
       required_error: "Password es requerido",
@@ -12,4 +14,4 @@ export const adminSchema = z.object({
 
   export type AdminParams = z.infer<typeof adminSchema>;
 
-  export type Admin = AdminParams & { id: number };
+  export type Admin = AdminParams;

@@ -16,17 +16,11 @@ app.use(express.json());
 app.use(sessionHandler());
 
 // Routers
-// app.use(authRouter);
-
-
-// app.get("/upload", authenticateHandler, authorize("admin"), (_req, res) => {
-//   res.json({ ok: true, message: "Bienvenido al panel de administración" });
-// });
 
 app.use(authRouter);
 app.use("/user", userRouter);
 // Solo los usuarios con el rol "admin" pueden acceder a esta ruta
-app.get("/admin", authenticateHandler, authorize("admin"), (_req, res) => {
+app.get("/upload", authenticateHandler, authorize("admin"), (_req, res) => {
   res.json({ ok: true, message: "Bienvenido al panel de administración" });
 });
 
