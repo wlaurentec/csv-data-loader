@@ -12,14 +12,13 @@ export async function getUserByEmail(email: string): Promise<User | undefined> {
 export async function createUser(
   name: string,
   email: string,
-  password: string,
   age: number,
   role: string
 ): Promise<User> {
   return (
     await query(
-      "INSERT INTO users (name, email, password, age, role) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [name, email, password, age, role]
+      "INSERT INTO users (name, email, age, role) VALUES ($1, $2, $3, $4) RETURNING *",
+      [name, email, age, role]
     )
   ).rows[0];
 }
