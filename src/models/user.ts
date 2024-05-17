@@ -14,12 +14,12 @@ export const userSchema = z.object({
     .email({
       message: "Email no es un email válido",
     }),
-  // password: z
-  //   .string({
-  //     required_error: "Password es requerido",
-  //     invalid_type_error: "Password debe ser un string",
-  //   })
-  //   .min(6, "Password debe tener al menos 6 caracteres"),
+  password: z
+    .string({
+      required_error: "Password es requerido",
+      invalid_type_error: "Password debe ser un string",
+    })
+    .min(6, "Password debe tener al menos 6 caracteres"),
   age: z 
   .number({
     required_error: "Age es requerido",
