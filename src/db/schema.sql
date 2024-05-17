@@ -2,9 +2,15 @@ CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
   name varchar(255) NOT NULL,
 	email varchar(255) NOT NULL UNIQUE,
-	password varchar(60) NULL,
   age integer NULL CHECK (age > 0),
   role varchar(255) NOT NULL default 'user'
+);
+
+
+CREATE TABLE admin (
+    user_id SERIAL PRIMARY KEY,
+    password VARCHAR(255) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE "session" (

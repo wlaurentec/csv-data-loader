@@ -8,7 +8,7 @@ const { Pool } = pg;
 const dbConfig = {
   host: "localhost",
   port: 5432,
-  database: "data-loader",
+  database: "csv-loader",
   user: process.env["DB_USER"], //Tu usuario
   password: process.env["DB_PASS"], //Contraseña
 };

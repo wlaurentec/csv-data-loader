@@ -14,18 +14,14 @@ export const userSchema = z.object({
     .email({
       message: "Email no es un email válido",
     }),
-  password: z
-    .string({
-      required_error: "Password es requerido",
-      invalid_type_error: "Password debe ser un string",
-    })
-    .min(6, "Password debe tener al menos 6 caracteres"),
+  // password: z
+  //   .string({
+  //     required_error: "Password es requerido",
+  //     invalid_type_error: "Password debe ser un string",
+  //   })
+  //   .min(6, "Password debe tener al menos 6 caracteres"),
   age: z 
-  .number({
-    required_error: "Age es requerido",
-    invalid_type_error: "Age debe ser un number",
-  })
-  .min(1),
+  .number().int().positive().optional(),
   role: z
     .enum(["admin", "user"], {
       errorMap: () => ({ message: "El rol debe ser admin o user" }),
