@@ -25,12 +25,18 @@ async function processCSV(filePath: string): Promise<{ success: User[]; errors: 
       .pipe(csv())
       .on('data', async (row) => {
         try {
+
+          // // Convert age to a number if it exists
+          if (row.age) {
+            row.age = Number(row.age);
+          }
           const userData = userSchema.parse(row);
           const result = await pool.query(
             'INSERT INTO users (name, email, age) VALUES ($1, $2, $3) RETURNING *',
             [userData.name, userData.email, userData.age]
           );
           success.push(result.rows[0]);
+          
         } catch (err: Error | any) {
           if (err instanceof ZodError) {
             errors.push({ row: row, details: err.errors });
