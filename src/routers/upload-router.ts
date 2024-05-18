@@ -6,7 +6,7 @@ import { pool } from '../db';
 import { userSchema } from '../models/user';
 import fs from 'fs';
 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: 'uploads' });
 
 interface User {
   id?: number;
@@ -49,7 +49,7 @@ async function processCSV(filePath: string): Promise<{ success: User[]; errors: 
 }
 
 export const uploadCSV = [
-  upload.single('data.csv'),
+  upload.single('csv'),
   async (req: Request, res: Response) => {
     try {
       if (!req.file) {
