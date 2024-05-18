@@ -5,6 +5,7 @@ import { ZodError } from 'zod';
 import { pool } from '../db';
 import { userSchema } from '../models/user';
 import fs from 'fs';
+import { pipeline } from 'stream/promises';
 
 const upload = multer({ dest: 'uploads' });
 
@@ -20,38 +21,46 @@ async function processCSV(filePath: string): Promise<{ success: User[]; errors: 
   const success: User[] = [];
   const errors: any[] = [];
 
-  return new Promise((resolve, reject) => {
-    fs.createReadStream(filePath)
-      .pipe(csv())
-      .on('data', async (row) => {
-        try {
+  let rowIndex = 0;
 
-          // // Convert age to a number if it exists
-          if (row.age) {
-            row.age = Number(row.age);
-          }
-          const userData = userSchema.parse(row);
-          const result = await pool.query(
-            'INSERT INTO users (name, email, age) VALUES ($1, $2, $3) RETURNING *',
-            [userData.name, userData.email, userData.age]
-          );
-          success.push(result.rows[0]);
-          
-        } catch (err: Error | any) {
-          if (err instanceof ZodError) {
-            errors.push({ row: row, details: err.errors });
-          } else {
-            errors.push({ row: row, details: err.message });
-          }
-        }
-      })
-      .on('end', () => {
-        resolve({ success, errors });
-      })  
-      .on('error', (err) => {
-        reject(err);
-      });
-  });
+  const processRow = async (row: any) => {
+    rowIndex++;
+    try {
+      // Convert age to a number if it exists
+      if (row.age) {
+        row.age = Number(row.age);
+      }
+      const userData = userSchema.parse(row);
+      const result = await pool.query(
+        'INSERT INTO users (name, email, age) VALUES ($1, $2, $3) RETURNING *',
+        [userData.name, userData.email, userData.age]
+      );
+      success.push(result.rows[0]);
+    } catch (err: any) {
+      if (err instanceof ZodError) {
+        const errorDetails = err.errors.reduce((acc: any, error) => {
+          acc[error.path[0]] = error.message;
+          return acc;
+        }, {});
+        errors.push({ row: rowIndex, details: errorDetails });
+      } else {
+        errors.push({ row: rowIndex, details: { message: err.message } });
+      }
+    }
+  };
+
+  await pipeline(
+    fs.createReadStream(filePath),
+    csv(),
+    async function* (source) {
+      for await (const row of source) {
+        await processRow(row);
+        yield row;
+      }
+    }
+  );
+
+  return { success, errors };
 }
 
 export const uploadCSV = [
@@ -60,7 +69,7 @@ export const uploadCSV = [
     try {
       if (!req.file) {
         res.status(400).json({ message: 'No file uploaded' });
-        return; // Add this line to ensure the function returns a value
+        return;
       }
 
       const { success, errors } = await processCSV(req.file.path);

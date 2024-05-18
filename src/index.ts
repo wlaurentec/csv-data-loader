@@ -9,7 +9,6 @@ import errorHandler from "./middlewares/error";
 import { uploadCSV } from "./routers/upload-router";
 import fs from 'fs';
 import path from 'path';
-// import multer from "multer";
 
  
 const app = express();
@@ -26,8 +25,6 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
 }
 
-// const upload = multer({ dest: uploadsDir });
-
 // Routers
 
 app.use(authRouter);
@@ -35,11 +32,6 @@ app.use("/user", userRouter);
 
 // Solo los usuarios con el rol "admin" pueden acceder a esta ruta
 app.post("/upload", authenticateHandler, authorize("admin"), uploadCSV);
-
-// app.post("/upload", authenticateHandler, authorize("admin"), (_req, res) => {
-//   res.json({ ok: true, message: "Bienvenido al panel de administración" });
-// });
-
 
 // Error handler
 

@@ -1,7 +1,6 @@
 import express from "express";
 import { createUser } from "../services/user-service";
 import { validateCredentials } from "../services/user-service";
-
 import { validationHandler } from "../middlewares/validation";
 import { userSchema } from "../models/user";
 import jwt from "jsonwebtoken";

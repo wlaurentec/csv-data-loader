@@ -40,7 +40,7 @@ export async function validateCredentials(
   return user;
 }
 
-// Ejecutarse solo por primera vez para cargar admin a database
+//Ejecutarse solo por primera vez para cargar admin a database
 
 // async function createAdmin(email: string, password: string) {
 //   const hashedPassword = await bcrypt.hash(password, 10);
