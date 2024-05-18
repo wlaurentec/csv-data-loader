@@ -8,7 +8,7 @@ const jwtSecret = "ultra-secret";
 const userRouter = express.Router();
 
 userRouter.get("/", async (req, res, next) => {
-  // const userId = req.session.userId; // ID usuario
+
   const token = req.headers.authorization?.split(" ")[1] || "";
   let userId;
 
@@ -17,7 +17,7 @@ userRouter.get("/", async (req, res, next) => {
       userId: number;
       iat: number;
       exp: number;
-    }; // { userId: 5, iat: 1704896639, exp: 1704896699 }
+    }; 
 
     userId = payload.userId;
   } catch (error) {

@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from "express";
 export function validationHandler<T>(schema: ZodSchema<T>) {
   return async (req: Request, _res: Response, next: NextFunction) => {
     try {
-      const body = schema.parse(req.body); // { email: "testina@mail.com", password: "1234"}
+      const body = schema.parse(req.body);
       req.body = body;
       next();
     } catch (error) {

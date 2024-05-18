@@ -5,6 +5,11 @@ import { authorize } from "./middlewares/authorize";
 import authRouter from "./routers/auth-router";
 import userRouter from "./routers/user-router";
 import sessionHandler from "./middlewares/session";
+import errorHandler from "./middlewares/error";
+import { uploadCSV } from "./routers/upload-router";
+import fs from 'fs';
+import path from 'path';
+// import multer from "multer";
 
  
 const app = express();
@@ -15,16 +20,30 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(sessionHandler());
 
+// Verificar y crear la carpeta 'uploads' si no existe
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
+
+// const upload = multer({ dest: uploadsDir });
+
 // Routers
 
 app.use(authRouter);
 app.use("/user", userRouter);
-// Solo los usuarios con el rol "admin" pueden acceder a esta ruta
-app.get("/upload", authenticateHandler, authorize("admin"), (_req, res) => {
-  res.json({ ok: true, message: "Bienvenido al panel de administración" });
-});
 
-// app.use(errorHandler);
+// Solo los usuarios con el rol "admin" pueden acceder a esta ruta
+app.post("/upload", authenticateHandler, authorize("admin"), uploadCSV);
+
+// app.post("/upload", authenticateHandler, authorize("admin"), (_req, res) => {
+//   res.json({ ok: true, message: "Bienvenido al panel de administración" });
+// });
+
+
+// Error handler
+
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
