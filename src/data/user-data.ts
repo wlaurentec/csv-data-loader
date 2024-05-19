@@ -8,7 +8,6 @@ export async function getUser(id: number): Promise<User | undefined> {
 export async function getUserByEmail(email: string): Promise<User | undefined> {
   return (await query("SELECT * FROM users WHERE email = $1", [email])).rows[0];
 }
-
 export async function createUser(
   name: string,
   email: string,
