@@ -6,11 +6,11 @@ dotenv.config();
 const { Pool } = pg;
 
 const dbConfig = {
-  host: "localhost",
-  port: 5432,
-  database: "csv-loader",
-  user: process.env["DB_USER"], //Tu usuario
-  password: process.env["DB_PASS"], //Contraseña
+  host: process.env["PGHOST"],
+  port: Number(process.env["PGPORT"]),
+  database: process.env["PGDATABASE"],
+  user: process.env["PGUSER"],
+  password: process.env["PGPASSWORD"],
 };
 export const pool = new Pool(dbConfig);
 
