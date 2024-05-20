@@ -1,22 +1,15 @@
-# csv-data-loader
-API REST Sistema de Carga y Validación de Datos con Autenticación
-
-# Reto Técnico (Back-End Developer)
-
----
-
 # Sistema de Carga y Validación de Datos con Autenticación
 
-## Objetivo
+## Descripción
 
-Desarrollar una aplicación Back-End segura y robusta que permita a los usuarios autenticados, específicamente con rol de `admin`, cargar archivos CSV para la creación de registros en una base de datos PostgreSQL. La aplicación debe validar los datos del archivo CSV, permitir la corrección de registros inválidos y asegurar que solo usuarios autorizados realicen la carga de datos.
+Aplicación Back-End segura y robusta que permite a los usuarios autenticados, específicamente con rol de `admin`, la cargade  archivos CSV para la creación de registros en una base de datos PostgreSQL. La aplicación valida los datos del archivo CSV, permite la corrección de registros inválidos y asegurar que solo usuarios autorizados realicen la carga de datos.
 
 ## Tecnologías Específicas
 
-- **Backend**: Express para manejar la lógica del servidor.
+- **Backend**: Express maneja la lógica del servidor.
 - **Base de Datos**: PostgreSQL para almacenamiento de datos.
-- **Autenticación/Autorización**: Uso de JWT para manejar sesiones de usuario y control de acceso.
-- **Testing:** Vitest
+- **Autenticación/Autorización**: JWT para manejar sesiones de usuario y control de acceso.
+- **Testing:** Vitest y Supertest
 
 ## Backend (Express + PostgreSQL)
 
@@ -27,7 +20,7 @@ Desarrollar una aplicación Back-End segura y robusta que permita a los usuarios
 
 ### Middleware de Autorización
 
-- Verificar el JWT en cada solicitud al endpoint `/upload`, asegurando que solo usuarios con rol de `admin` puedan acceder.
+- Verifica el JWT en cada solicitud al endpoint `/upload`, asegurando que solo usuarios con rol de `admin` puedan acceder.
 - Un usuario con rol `admin` deberá ser pre-creado en la base de datos (seed).
 
 ### Procesamiento de Archivos CSV
@@ -96,4 +89,54 @@ Deberás implementar al menos cinco pruebas en el Backend. Una mayor cobertura d
     "email": "admin@example.com",
     "password": "adminpassword"
 }
+```
 
+## Instalación
+
+1. Clona este repositorio: `git clone git@github.com:wlaurentec/csv-data-loader.git`
+2. Instala las dependencias: `npm install`
+
+## Configuración
+
+1. Crea un archivo `.env` en la raíz del proyecto con las siguientes variables de entorno:
+
+PGHOST=localhost
+PGDATABASE=tu-base-datos
+PGPORT=5432
+PGUSER=[usuario]
+PGPASSWORD=[password]
+PGADMINDATABASE=[admin-database]
+PORT=5500
+CLIENT_ORIGIN=*
+
+
+2. Ejecuta las migraciones de la base de datos: `npm run migrate`
+
+## Uso
+
+1. Inicia el servidor: `npm run dev`
+2. Accede a la API en `http://localhost:5500`
+
+## Endpoints
+
+- `POST /login`: Inicio de sesión. Requiere un cuerpo JSON con `email` y `password`.
+- `POST /upload`: Carga de archivo CSV. Requiere autenticación como usuario administrador.
+- Otros endpoints detallados en la documentación de la API.
+
+## Pruebas
+
+1. Ejecuta las pruebas: `npm run test`
+
+## Contribución
+
+¡Contribuciones son bienvenidas! Si quieres contribuir a este proyecto, sigue estos pasos:
+
+1. Haz un fork del repositorio
+2. Crea una nueva rama: `git checkout -b mi-contribucion`
+3. Realiza tus cambios y haz commit: `git commit -am 'Añade mi contribución'`
+4. Haz push a la rama: `git push origin mi-contribucion`
+5. Crea un pull request en GitHub
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT. Para más detalles, ver el archivo LICENSE.
