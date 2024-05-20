@@ -12,3 +12,4 @@ async function createAdmin(email: string, password: string) {
 
 // Llamar a la función para crear un admin
 createAdmin('lechuga@gmail.com', '123456');
+

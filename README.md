@@ -57,20 +57,15 @@ Aplicación Back-End segura y robusta que permite a los usuarios autenticados, e
     }
     ```
 
-    Puedes modificar a tu criterio los mensajes de error para cada campo.
-
 ### Modelo de Datos
 
-- Crear una tabla `users` con los campos:
+- La tabla `users` se creo con los campos:
     - `id`: Identificador único del usuario (clave primaria, autoincremental).
     - `name`: Nombre del usuario (string, obligatorio).
-    - `email`: Email del usuario (string, único, obligatorio y debe seguir un formato válido de correo electrónico).
+    - `email`: Email del usuario (string, único, obligatorio y con un formato válido de correo electrónico).
     - `age`: Edad del usuario (integer, opcional, si se proporciona, debe ser un número entero mayor que 0).
     - `role`: Rol del usuario, puede ser `user` o `admin`. Por defecto es `user`.
 
-## Testing
-
-Deberás implementar al menos cinco pruebas en el Backend. Una mayor cobertura de tests será un plus.
 
 ## Manual de Uso de la API
 
@@ -98,7 +93,7 @@ Deberás implementar al menos cinco pruebas en el Backend. Una mayor cobertura d
 
 ## Configuración
 
-1. Crea un archivo `.env` en la raíz del proyecto con las siguientes variables de entorno:
+1. Modifica el archivo `.env.example` en la raíz del proyecto con tus variables de entorno:
 
 PGHOST=localhost
 PGDATABASE=tu-base-datos
@@ -106,26 +101,33 @@ PGPORT=5432
 PGUSER=[usuario]
 PGPASSWORD=[password]
 PGADMINDATABASE=[admin-database]
-PORT=5500
+PORT=3000
 CLIENT_ORIGIN=*
 
 
-2. Ejecuta las migraciones de la base de datos: `npm run migrate`
+2. Ejecuta el script: `npm run db:createAdmin` para cargar en la base de datos admin, que por defecto es:
 
+```json
+{
+    "email": "lechuga@gmail.com",
+    "password": "1234"
+}
+```
+Puedes ingresar tus datos de Admin en: scripts/dbCreateAdmin.ts
 ## Uso
 
 1. Inicia el servidor: `npm run dev`
-2. Accede a la API en `http://localhost:5500`
+2. Accede a la API en `http://localhost:3000`
 
 ## Endpoints
 
 - `POST /login`: Inicio de sesión. Requiere un cuerpo JSON con `email` y `password`.
 - `POST /upload`: Carga de archivo CSV. Requiere autenticación como usuario administrador.
-- Otros endpoints detallados en la documentación de la API.
+- Adicionalmente se tienen los siguientes endpoints: `POST /signup`, `POST /logout` y `GET /users`.
 
 ## Pruebas
 
-1. Ejecuta las pruebas: `npm run test`
+1. Ejecuta las pruebas con: `npm run test`
 
 ## Contribución
 
