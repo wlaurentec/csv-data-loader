@@ -10,7 +10,6 @@ import { uploadCSV } from "./routers/upload-router";
 import fs from 'fs';
 import path from 'path';
 import cors from "cors";
-
 import { configDotenv } from "dotenv";
 
 if (process.env["NODE_ENV"] === "test") {
