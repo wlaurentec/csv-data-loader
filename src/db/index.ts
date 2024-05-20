@@ -19,11 +19,7 @@ export const query = async (
   text: string,
   params?: (string | number | boolean)[]
 ) => {
-  // const initTime = Date.now();
-  // console.log(text, params);
   const results = await pool.query(text, params);
-  // const endTime = Date.now();
-  // console.log("Query time: ", endTime - initTime, "ms");
   return results;
 };
 
