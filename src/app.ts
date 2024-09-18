@@ -43,7 +43,7 @@ if (!fs.existsSync(uploadsDir)) {
 
 app.use(authRouter);
 app.use("/user", userRouter);
-
+console.log("Carpeta de archivos:", uploadsDir);
 // Solo los usuarios con el rol "admin" pueden acceder a esta ruta
 app.post("/upload", authenticateHandler, authorize("admin"), uploadCSV);
 
